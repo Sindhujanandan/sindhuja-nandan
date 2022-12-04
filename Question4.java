@@ -1,21 +1,21 @@
 import java.util.*;
 public class Question4 {
-  public static void main(String []args)
-  {
-    int ropes[]={2,3,3,4,6};
-    PriorityQueue<Integer> pq=new PriorityQueue<>();
-    for(int i=0;i<ropes.length;i++)
-    {
-        pq.add(ropes[i]);
+    public static void main(String[] args) {
+        LinkedHashMap<String,Integer>lhm=new LinkedHashMap<>();
+        lhm.put("India",100);
+        lhm.put("China", 150);
+        lhm.put("US", 50);
+       // System.out.println(lhm);
+        HashMap<String,Integer>hm=new HashMap<>();
+        hm.put("India",100);
+        hm.put("China", 150);
+        hm.put("US", 50);
+        System.out.println(lhm);
+        System.out.println(hm);
+        TreeMap<String,Integer> tm=new TreeMap<>();
+        tm.put("India",100);
+        tm.put("China", 150);
+        tm.put("US", 50);
+        System.out.println(tm);
     }
-    int cost=0;
-    while(pq.size()>1)
-    {
-        int min=pq.remove();
-        int min2=pq.remove();
-        cost+=min+min2;
-        pq.add(min+min2);
-    }
-    System.out.println("cost of connecting="+cost);
-  }  
 }

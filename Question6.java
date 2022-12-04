@@ -1,48 +1,39 @@
 import java.util.*;
 public class Question6 {
-    static class Pair implements Comparable<Pair>// O(nlogk)
+    public static boolean isAnagram(String s,String t)
     {
-        int val;
-        int idx;
-        public Pair(int val,int idx)
+        if(s.length()!=t.length())
         {
-            this.val=val;
-            this.idx=idx;
+            return false;
         }
-        @Override
-        public int compareTo(Pair p2)
+        HashMap<Character,Integer>map=new HashMap<>();
+        for(int i=0;i<s.length();i++)
         {
-            // ascending 
-          //  return this.val-p2.val;
-          // descending
-          return p2.val-this.val;
+            char ch=s.charAt(i);
+            map.put(ch, map.getOrDefault(ch, 0)+1);
         }
-    }
-    public static void main(String[] args) {
-        int arr[]={1,3,-1,-3,5,3,6,7};
-        int  k=3;
-        int res[]=new int [arr.length-k+1];
-        PriorityQueue<Pair> pq=new PriorityQueue<>();
-        //1st window
-        for(int i=0;i<k;i++)
+        for(int i=0;i<t.length();i++)
         {
-            pq.add(new Pair(arr[i], i));
-        }
-        res[0]=pq.peek().val; 
-        for(int i=k;i<arr.length;i++)
-        {
-            while(pq.size()>0&&pq.peek().idx<=(i-k))
+            char ch=t.charAt(i);
+            if(map.get(ch)!=null)
             {
-                pq.remove();
+                if(map.get(ch)==1)
+                {
+                    map.remove(ch);
+                }
+                else{
+                    map.put(ch, map.get(ch)-1);
+                }
             }
-            pq.add(new Pair(arr[i], i));
-            res[i-k+1]=pq.peek().val;
+            else{
+                return false;
+            }
         }
-        // print result
-        for(int i=0;i<res.length;i++)
-        {
-            System.out.print(res[i]+" ");
-        }
-        System.out.println();
+        return map.isEmpty();
     }
+  public static void main(String[] args) {
+    String s="race";//O(n)
+    String t="care";
+    System.out.println(isAnagram(s, t));
+  }  
 }

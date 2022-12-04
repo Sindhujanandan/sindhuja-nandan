@@ -1,45 +1,27 @@
 import java.util.*;
 public class Question5 {
-    static class Row implements Comparable<Row>
-    {
-        int soldiers;
-        int idx;
-
-        public Row(int soldiers,int idx)
+    public static void main(String[] args) {
+        int arr[]={1,3,2,5,1,3,1,5,1};
+        HashMap<Integer,Integer>map=new HashMap<>();
+        for(int i=0;i<arr.length;i++)
         {
-            this.soldiers=soldiers;
-            this.idx=idx;
-        }
-        @Override
-        public int compareTo(Row r2)
-        {
-            if(this.soldiers==r2.soldiers)
+           /*  if(map.containsKey(arr[i]))
             {
-                return this.idx-r2.idx;
+                map.put(arr[i], map.get(arr[i])+1);
             }
             else{
-                return this.soldiers-r2.soldiers;
-            }
+                map.put(arr[i], 1);
+            }*/
+            map.put(arr[i], map.getOrDefault(arr[i], 0)+1);
         }
-    }
-    public static void main(String[] args) {
-        int army[][]={{1,0,0,0},
-        {1,1,1,1},
-        {1,0,0,0},{1,0,0,0}};
-        int k=2;
-        PriorityQueue<Row> pq=new PriorityQueue<>();
-        for(int i=0;i<army.length;i++)
+        //Set<Integer>keySet=map.keySet();
+        for(Integer key:map.keySet())
         {
-            int count=0;
-            for(int j=0;j<army[0].length;j++)
+            if(map.get(key)>arr.length/3)
             {
-                count+=army[i][j]==1?1:0;
+                System.out.println(key);
             }
-            pq.add(new Row(count, i));
-        }
-        for(int i=0;i<k;i++)
-        {
-            System.out.println("R"+pq.remove().idx);
         }
     }
+    
 }
