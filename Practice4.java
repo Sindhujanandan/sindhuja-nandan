@@ -1,18 +1,26 @@
 public class Practice4 {
-    static int maxProfit(int prices[], int n)
+    // count contiguous substrings
+  public static int  countsubstrs(String s,int i,int j,int n)
+  {
+    if(n==1)
     {
-        int buy = prices[0], max_profit = 0;
-        for (int i = 1; i < n; i++) {
-            if (buy > prices[i])buy = prices[i];
-            else if (prices[i] - buy > max_profit)
-            max_profit = prices[i] - buy;
-        }
-        return max_profit;
+        return 1;
     }
-    public static void main(String args[])
+    if(n<=0)
     {
-        int prices[] = { 7, 1, 5, 6, 4 };
-        int n = prices.length;
-        int max_profit = maxProfit(prices, n);
-        System.out.println(max_profit);
-    }}
+        return 0;
+    }
+    int res =countsubstrs(s, i+1, j, n-1)+countsubstrs(s, i, j-1, n-1)-countsubstrs(s, i+1, j-1, n-2);
+  if(s.charAt(i)==s.charAt(j))
+  {
+    res++;
+  }
+  return res;
+  }
+    public static void main(String[] args) {
+        //String s="abcab";
+        String s="aba";
+        int n=s.length();
+        System.out.print(countsubstrs(s,0,n-1,n));
+    }
+}

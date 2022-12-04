@@ -1,4 +1,4 @@
-public class Practice3 {
+public class LengthString {
     public static int lengthofstring(String str)
     {
         if(str.length()==0)
