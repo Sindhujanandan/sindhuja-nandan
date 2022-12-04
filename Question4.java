@@ -1,76 +1,48 @@
-import java.util.*;
 public class Question4 {
-    static class Edge
+   // O(n*sum)-time complexity
+    public static boolean targetSumSubset(int arr[],int sum)
     {
-        int src;
-        int dest;
-        int wt;
-        public Edge(int src,int d,int w)
+        int n=arr.length;
+        boolean dp[][]=new boolean[n+1][sum+1];
+        //i=items & j=target sum
+        for(int i=0;i<n+1;i++)
         {
-            this.src=src;
-            this.dest=d;
-            this.wt=w;
+            dp[i][0]=true;
         }
+        for(int i=1;i<n+1;i++)
+        {
+            for(int j=1;j<sum+1;j++)
+            {
+                int v=arr[i-1];
+                // include
+                if(v<=j&& dp[i-1][j-v]==true){
+                    dp[i][j]=true;
+                }
+                // exclude
+                else if(dp[i-1][j]==true){
+                    dp[i][j]=true;
+                }
+            }
+        }
+        print(dp);
+        return dp[n][sum];
     }
-    static void createGraph2(ArrayList<Edge> graph[])
+    public static void print(boolean dp[][])
     {
-        for(int i=0;i<graph.length;i++)
+        for(int i=0;i<dp.length;i++)
         {
-            graph[i]=new ArrayList<>();
+            for(int j=0;j<dp[0].length;j++)
+            {
+                System.out.print(dp[i][j]+" ");
+            }
+            System.out.println();
         }
-        graph[0].add(new Edge(0, 1,10));
-        graph[0].add(new Edge(0, 2,15));
-        graph[0].add(new Edge(0, 3,30));
-    
-        graph[1].add(new Edge(1, 0,10));
-        graph[1].add(new Edge(1, 3,40));
-    
-        graph[2].add(new Edge(2, 0,15));
-        graph[2].add(new Edge(2, 3,50));
-    
-        graph[3].add(new Edge(3, 0,30));
-        graph[3].add(new Edge(3, 2,50));
+        System.out.println();
     }
-    static class Pair implements Comparable<Pair>{
-        int v;
-        int cost;
-        public Pair(int v,int c){
-            this.v=v;
-            this.cost=c;
-        }
-        @Override
-        public int compareTo(Pair p2)
-        {
-            return this.cost-p2.cost;
-        }
-    }
+    public static void main(String[] args) {
+       int arr[]={4,2,7,1,3};
+       int sum=10; 
 
-    public static void Prims(ArrayList<Edge> graph[])
-    {
-boolean vis[]=new boolean[graph.length];
-PriorityQueue<Pair> pq=new PriorityQueue<>();
-pq.add(new Pair(0,0));
-int finalcost=0;
-while(!pq.isEmpty())
-{
-    Pair curr=pq.remove();
-    if(!vis[curr.v])
-    {
-        vis[curr.v]=true;
-        finalcost +=curr.cost;
-        for(int i=0;i<graph[curr.v].size();i++)
-        {
-            Edge e=graph[curr.v].get(i);
-            pq.add(new Pair(e.dest,e.wt));
-        }
+System.out.println( targetSumSubset(arr, sum));      
     }
-}
-System.out.println(" final mincost of my MST ="+finalcost);
-}
-public static void main(String[] args) {
-    int V=7;
-    ArrayList<Edge> graph[]=new ArrayList[V];
-    createGraph2(graph);
-    Prims(graph);
-}
 }

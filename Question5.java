@@ -1,89 +1,48 @@
-import java.util.*;
 public class Question5 {
-    static class Edge{
-        int src;
-        int dest;
-        int wt;
-        public Edge(int s,int d,int w){
-            this.src=s;
-            this.dest=d;
-            this.wt=w;
-        }
-    }
-    public static void createGraph2(int flights[][],ArrayList<Edge> graph[])
+    public static int unboundedknapsack(int val[],int wt[],int W)
     {
-        for(int i=0;i<graph.length;i++)
+        int n=val.length;
+        int[][] dp=new int[n+1][W+1];
+        for(int i=0;i<n+1;i++)
         {
-            graph[i]=new ArrayList<>();
+            dp[i][0]=0;
         }
-        for(int i=0;i<flights.length;i++)
+        for(int j=0;j<W+1;j++)
         {
-            int src=flights[i][0];
-            int dest=flights[i][1];
-            int wt=flights[i][2];
-
-            Edge e=new Edge(src, dest, wt);
-            graph[src].add(e);
+            dp[0][j]=0;
         }
-    }
-    static class Info{
-        int v;
-        int cost;
-        int stops;
-        public Info(int v,int c,int s)
+        for(int i=1;i<n+1;i++)
         {
-            this.v=v;
-            this.cost=c;
-            this.stops=s;
-        }
-    }
-    public static int cheapestFLight(int n,int flights[][],int src,int dest,int k)
-    {
-        ArrayList<Edge> graph[]=new ArrayList[n];
-        createGraph2(flights, graph);
-        int dist[]=new int[n];
-        for(int i=0;i<n;i++)
-        {
-            if(i!=src)
+            for(int j=1;j<W+1;j++)
             {
-                dist[i]=Integer.MAX_VALUE;
-            }
-        }
-        Queue<Info> q=new LinkedList<>();
-        q.add(new Info(src, 0, 0));
-        while(!q.isEmpty())
-        {
-            Info curr=q.remove();
-            if(curr.stops>k)
-            {
-                break;
-            }
-            for(int i=0;i<graph[curr.v].size();i++)
-            {
-                Edge e=graph[curr.v].get(i);
-                int u=e.src;
-                int v=e.dest;
-                int wt=e.wt;
-                if(curr.cost+wt<dist[v]&&curr.stops<=k)
+                if(wt[i-1]<=j)
                 {
-                    dist[v]=dist[u]+wt;
-                    q.add(new Info(v, dist[v], curr.stops+1));
-                } 
+                    dp[i][j]=Math.max(val[i-1]+dp[i][j-wt[i-1]], dp[i-1][j]);
+                }else{
+                    dp[i][j]=dp[i-1][j];
+                }
             }
         }
-        if(dist[dest]==Integer.MAX_VALUE)
+        print(dp);
+        return dp[n][W];
+    }
+    public static void print(int dp[][])
+    {
+        for(int i=0;i<dp.length;i++)
         {
-            return -1;
+            for(int j=0;j<dp[0].length;j++)
+            {
+                System.out.print(dp[i][j]+" ");
+            }
+            System.out.println();
         }
-        else{
-            return dist[dest];
-        }
+        System.out.println();
     }
-    public static void main(String[] args) {
-        int n=4;
-        int flights[][]={{0,1,100},{1,2,100},{2,0,100},{1,3,600},{2,3,200}};
-        int src=0,dest=3,k=1;
-        System.out.println(cheapestFLight(n, flights, src, dest, k));
-        
-    }
+ public static void main(String[] args) {
+    int val[]={15,14,10,45,30};
+    int wt[]={2,5,1,3,4};
+    int W=7;
+    System.out.println(unboundedknapsack(val, wt, W));
+   
+ }   
 }

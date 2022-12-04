@@ -1,32 +1,47 @@
-import java.util.*;
 public class Question11 {
-    public static String getStart(HashMap<String,String>tickets)
+    public static int editDistance(String str1,String str2)
     {
-        HashMap<String,String>revMap=new HashMap<>();
-        for(String key:tickets.keySet())
+        int n=str1.length();
+        int m=str2.length();
+        int dp[][]=new int[n+1][m+1];
+        // initialize
+        for(int i=0;i<n+1;i++)
         {
-            revMap.put(tickets.get(key),key);
-        }
-        for(String key:tickets.keySet())
-        {
-            if(!revMap.containsKey(key))
+            for(int j=0;j<m+1;j++)
             {
-                return key;//starting point 
+                if(i==0)
+                {
+                    dp[i][j]=j;
+                }
+                if(j==0)
+                {
+                    dp[i][j]=i;
+                }
             }
         }
-        return null;
+        // bottom up
+        for(int i=1;i<n+1;i++)
+        {
+            for(int j=1
+            ;j<m+1;j++)
+            {
+                if(str1.charAt(i-1)==str2.charAt(j-1))
+                {
+                    dp[i][j]=dp[i-1][j-1];
+                }
+                else{
+                    int add=dp[i][j-1]+1;
+                    int del=dp[i-1][j]+1;
+                    int rep=dp[i-1][j-1]+1;
+                    dp[i][j]=Math.min(add, Math.min(del, rep));
+                }
+            }
+        }
+        return dp[n][m];
     }
     public static void main(String[] args) {
-       HashMap<String,String>tickets=new HashMap<>();
-       tickets.put("Chennai", "Bengaluru");
-       tickets.put("Mumbai", "Delhi");
-       tickets.put("Goa", "Chennai");
-       tickets.put("Delhi", "Goa");
-        String start=getStart(tickets);
-        for (String key : tickets.keySet()) {
-            System.out.print("->"+tickets.get(start));
-            start=tickets.get(start);
-        }
-        System.out.println();
+        String word1="intention";
+        String word2="execution";
+        System.out.println(editDistance(word1, word2));
     }
 }

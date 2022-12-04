@@ -1,47 +1,38 @@
-import java.util.*;
 public class Question7 {
-    static int n=7;
-    static int par[]=new int[n];
-    static int rank[]=new int[n];
-    public static void init()
-    {
-        for(int i=0;i<n;i++)
+    //weight=> length;val=>price; W=> totRod
+    public static int  rodcutting(int length[],int price[],int totRod ) {
+        int n=price.length;
+        int dp[][]=new int[n+1][totRod+1];
+        for(int i=0;i<n+1;i++)
         {
-            par[i]=i;
+          for(int j=0;j<totRod+1;j++)
+          {
+            if(i==0||j==0)
+            {
+                dp[i][j]=0;
+            }
+          }  
         }
-    }
-    public static int find(int x)
-    {
-        if(x==par[x])
+        for(int i=1;i<n+1;i++)
         {
-            return x;
+            for(int j=1;j<totRod+1;j++)
+            {
+                //valid
+                if(length[i-1]<=j)
+                {
+                    dp[i][j]=Math.max(price[i-1]+dp[i][j-length[i-1]],dp[i-1][j]);
+                } else{
+                    //invalid
+                    dp[i][j]=dp[i-1][j];
+                }
+            }
         }
-        return find(par[x]);
+        return dp[n][totRod];
     }
-public static void union(int a,int b)
-{
-    int parA=find(a);
-    int parB=find(b);
-    if(rank[parA]==rank[parB])
-    {
-        par[parB]=parA;
-        rank[parA]++;
-    }else if(rank[parA]<rank[parB])
-    {
-        par[parA]=parB;
-    }else{
-        par[parB]=parA;
-    }
-}
-public static void main(String[] args) {
-    init();
-    union(1, 3);
-    System.out.println(find(3));
-    union(2, 4);
-    union(3, 6);
-    union(1, 4);
-    System.out.println(find(3));
-    System.out.println(find(4));
-    union(1, 5);
-}
+ public static void main(String[] args) {
+    int length[]={1,2,3,4,5,6,7,8};
+    int price[]={1,5,8,9,10,17,17,20};
+    int totRod=8;
+    System.out.println(rodcutting(length, price, totRod));
+ }   
 }

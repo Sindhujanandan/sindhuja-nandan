@@ -1,60 +1,32 @@
-import java.util.*;
 public class Question1 {
-    static class Edge{
-        int src;
-        int dest;
-        int wt;
-
-        public Edge(int s,int d,int w)
+    public static int fib(int n,int f[])
+    {
+        if(n==0||n==1)
         {
-            this.src=src;
-            this.dest=dest;
-            this.wt=wt;
+            return n;
         }
+        if(f[n]!=0)
+        {
+            return f[n];
+        }
+        f[n]=fib(n-1, f)+fib(n-2, f);
+        return f[n];
     }
-    
+    public static int fibTabular(int n)
+    {
+        int dp[]=new int[n+1];
+        dp[0]=0;
+        dp[1]=1;
+        for(int i=2;i<=n;i++)
+        {
+            dp[i]=dp[i-1]+dp[i-2];
+        }
+        return dp[n];
+    }
     public static void main(String[] args) {
-       /*  (5)
-       0--------1
-               / \
-           (1)/   \(3)
-             /     \
-            2-------3
-            |    (1)
-            |(2)
-            |
-            4
-       */ 
-      int v=5;
-      ArrayList<Edge>[] graph=new ArrayList[v];
-      for(int i=0;i<v;i++)
-      {
-        graph[i]=new ArrayList<>();
-      }
-      // 0 vertex
-      graph[0].add(new Edge(0, 1, 5));
-
-      // 1 vertex
-      graph[1].add(new Edge(1, 0, 5));
-      graph[1].add(new Edge(1, 2, 1));
-      graph[1].add(new Edge(1, 3, 3));
-
-      // 2 vertex
-      graph[2].add(new Edge(2, 1, 1));
-      graph[2].add(new Edge(2, 3, 1));
-      graph[2].add(new Edge(2, 4, 4));
-      
-      // 3 vertex
-      graph[3].add(new Edge(3, 1, 3));
-      graph[3].add(new Edge(3, 2, 1));
-      
-      // 4 vertex
-      graph[4].add(new Edge(4, 2, 2));
-      // 2's neighbors
-      for(int i=0;i<graph[2].size();i++)
-      {
-        Edge e=graph[2].get(i);
-        System.out.println(e.dest);
-      }
+        int n=5;
+        int f[]=new int[n+1];
+        System.out.println(fib(n, f));
+        System.out.println(fibTabular(n));
     }
 }

@@ -1,39 +1,37 @@
-import java.util.*;
 public class Question6 {
-    public static boolean isAnagram(String s,String t)
+
+    public static int coinchange(int coins[],int sum)
     {
-        if(s.length()!=t.length())
+        int n=coins.length;
+        int dp[][]=new int[n+1][sum+1];
+        //initialize
+        // i-> coins; j-> sum/change
+        for(int i=0;i<n+1;i++)
         {
-            return false;
+            dp[i][0]=1;
         }
-        HashMap<Character,Integer>map=new HashMap<>();
-        for(int i=0;i<s.length();i++)
+        for(int j=1;j<sum+1;j++)
         {
-            char ch=s.charAt(i);
-            map.put(ch, map.getOrDefault(ch, 0)+1);
+            dp[0][j]=0;
         }
-        for(int i=0;i<t.length();i++)
+        for(int i=1;i<n+1;i++)
         {
-            char ch=t.charAt(i);
-            if(map.get(ch)!=null)
+            for(int j=1;j<sum+1;j++)
             {
-                if(map.get(ch)==1)
+                if(coins[i-1]<=j)// valid
                 {
-                    map.remove(ch);
+                    dp[i][j]=dp[i][j-coins[i-1]]+dp[i-1][j];
                 }
-                else{
-                    map.put(ch, map.get(ch)-1);
+                else{// invalid
+                    dp[i][j]=dp[i-1][j];
                 }
-            }
-            else{
-                return false;
             }
         }
-        return map.isEmpty();
+        return dp[n][sum];
     }
-  public static void main(String[] args) {
-    String s="race";//O(n)
-    String t="care";
-    System.out.println(isAnagram(s, t));
-  }  
+    public static void main(String[] args) {
+    int coins[]={1,2,3};
+    int sum=5;
+        System.out.println(coinchange(coins, sum));
+    }
 }
