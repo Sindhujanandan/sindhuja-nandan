@@ -1,43 +1,71 @@
-import java.util.*;
-public class Question01 {
-   public static void main(String[] args) {
-    int start[]={1,3,0,5,8,5};
-    int end[]={2,4,6,7,9,9};
-    // end time basis sorted
-    int activities[][]=new int [start.length][3];
-    for(int i=0;i<start.length;i++)
+//import java.util.*;
+public class Question01 {//O(l)
+        static class Node
     {
-      activities[i][0]=i;
-      activities[i][1]=start[i];
-      activities[i][2]=end[i];
+        Node children[]=new Node[26];
+        boolean eow/*endofWord*/=false;
 
+      public Node()
+        {
+            for(int i=0;i<26;i++)
+            {
+                children[i]=null;
+            }
+        }
     }
-    // lambda function ->shortform of long function
-    Arrays.sort(activities,Comparator.comparingDouble(o -> o[2]));
-
-    int maxact=0;
-    ArrayList<Integer> ans= new ArrayList<>();
-    maxact=1;
-   ans.add(activities[0][0]);
-    //ans.add(0);
-    int lastEnd=activities[0][2];
-    //int lastEnd=end[0];
-    for(int i=0;i<end.length;i++)
+    public static Node root=new Node();
+    public static void insert(String word)
     {
-      if(activities[i][1]>=lastEnd)
-    //  if(start[i]>=lastEnd)
-      {
-         maxact++;
-         ans.add(activities[i][0]);
-         lastEnd=activities[i][2];
-      }
-    } 
-     System.out.println("max activities="+maxact);   
-     for(int i=0;i<ans.size();i++)
-     {
-      System.out.print("A"+ans.get(i)+" ");
-     }
-     System.out.println();
-   } 
-   }
-
+        Node curr=root;
+        for(int level=0;level<word.length();level++)
+        {
+            int idx=word.charAt(level)-'a';
+            if(curr.children[idx]==null)
+            {
+                curr.children[idx]=new Node();
+            }
+            curr=curr.children[idx];
+        }
+        curr.eow=true;
+    }
+    public static boolean search(String key)
+    {
+        Node curr=root;
+        for(int level=0;level<key.length();level++)
+        {
+            int idx=key.charAt(level)-'a';
+            if(curr.children[idx]==null)
+            {
+             return false;
+            }
+            curr=curr.children[idx];
+        }
+       return curr.eow=true;
+    }
+    public static boolean wordBreak(String key)
+    {
+        if(key.length()==0)
+        {
+            return true;
+        }
+        for(int i=1;i<=key.length();i++)
+        {
+            if(search(key.substring(0,i)) && wordBreak(key.substring(i)))
+            {
+            return true;
+            }
+        }
+        return false;
+    }
+  public static void main(String[] args) {
+    String words[]={"the","are","there","their","any","three","boys"};
+    for(int i=0;i<words.length;i++)
+    {
+        insert(words[i]);
+    }
+   // System.out.println(search("thee"));
+    //System.out.println(search("thor"));
+    String key="therearethreeboys";
+    System.out.println(wordBreak(key));
+  }  
+}
