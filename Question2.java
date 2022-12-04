@@ -1,34 +1,60 @@
-import java.util.*;
 public class Question2 {
-public static void main(String[] args) {
-    int val[]={60,100,120};
-    int weight[]={10,20,30};
-    int w=50;
+    static class Node{
+        int data;
+        Node left;
+        Node right;
+         public Node(int data)
+         {
+            this.data=data;
+            this.left=this.right=null;
+         }
+    }
+    public static Node createMirror(Node root)
+    {
+        if(root==null)
+        {
+            return null;
+        }
+       Node leftMirror= createMirror(root.left);
+       Node rightMirror= createMirror(root.right);
 
-    double ratio[][] =new double[val.length][2];
-    // oth col => idx;1st col=>ratio
-    for(int i=0;i<val.length;i++)
-    {
-        ratio[i][0]=i;
-        ratio[i][1]=val[i]/(double)weight[i];
+        root.left=rightMirror;
+        root.right=leftMirror;
+        return root;
     }
-    // ascending order
-    Arrays.sort(ratio,Comparator.comparingDouble(o -> o[1]));
-    int capacity=w;
-int finalval=0;
- for(int i=ratio.length-1;i>=0;i--)
- {
-    int idx=(int)ratio[i][0];
-    if(capacity>=weight[idx])
+    public static void preOrder(Node root)
     {
-finalval+=val[idx];
-capacity -=weight[idx];
-    }else{
-      finalval+=(ratio[i][1]*capacity);
-      capacity=0;
-      break;  
+        if(root==null)
+        {
+            return ;
+        }
+       System.out.print(root.data+" ");
+       preOrder(root.left);
+       preOrder(root.right);
     }
- }
- System.out.println("final value="+finalval);
-}
+    public static void main(String[] args) {
+        /*
+        8
+       / \
+      5   10
+     / \   \
+    3   6   11
+         */
+        Node root=new Node(8);
+        root.left=new Node(5);
+        root.right=new Node(10);
+        root.left.left=new Node(3);
+        root.left.right=new Node(6);
+        root.right.right=new Node(11);
+        /*
+        8
+       / \
+      10  5
+     /   / \
+    11  6   3
+ mirro BST
+         */
+        root=createMirror(root);
+        preOrder(root);
+    }
 }

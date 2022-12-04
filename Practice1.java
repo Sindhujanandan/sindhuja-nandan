@@ -1,21 +1,45 @@
 public class Practice1 {
-    public static void alloccur(int []arr,int key,int i)
+    static  class Node{
+        int data;
+        Node left;
+        Node right;
+    };
+    static Node newNode(int data)
     {
-        if(i==arr.length)
+        Node temp=new Node();
+        temp.data=data;
+        temp.left=temp.right=null;
+        return(temp);
+    }
+    static boolean isUniversal(Node root)
+    {
+        if(root==null)
         {
-           return ;
+            return true;
         }
-       if(key==arr[i])
+        if(root.left!=null&&root.data!=root.left.data)
         {
-        System.out.print(i+" ");
+            return false;
         }
-        alloccur(arr, key, i+1);
+        if(root.right!=null&&root.data!=root.right.data)
+        {
+            return false;
+        }
+        return isUniversal(root.left)&&isUniversal(root.right);
     }
     public static void main(String[] args) {
-        int arr[]={3,2,4,5,6,2,7,2,2};
-        int key=2;
-        alloccur(arr,key,0);
-            System.out.println(); 
-        }
-    }
-
+        Node root=newNode(1);
+        root.left=newNode(1);
+        root.right=newNode(1);
+        root.left.left=newNode(1);
+        root.left.right=newNode(1);
+        root.right.right=newNode(1);
+if(isUniversal(root))
+{
+    System.out.println("YES");
+}
+else{
+    System.out.println("NO");
+}
+}
+}

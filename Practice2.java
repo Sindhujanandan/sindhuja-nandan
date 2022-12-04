@@ -1,19 +1,59 @@
-public class Practice2 {
-    static String digits[]={"zero","one","two","three","four","five","six","seven","eight","nine"};
-
-    public static void  printDigits(int digit)
-    {
-        if(digit==0)
-        {
-            return;
-        }
-            int rem=digit%10;
-            printDigits(digit/10);
-            System.out.print(digits[rem]+" ");
-    }
-    public static void main(String[] args) {
-      printDigits(291025);
-      System.out.println();
-       
-    }
+//import Question1.BinaryTree;
+class Node {
+    int data;
+    Node left,right;
+public Node(int item)
+{
+    data=item;
+    left=right=null;
 }
+}
+public class Practice2 {
+    Node root;
+    void mirror()
+    {
+        root=mirror(root);
+    }
+    Node mirror(Node node)
+    { // do the subtrees
+        if(node==null)
+        return node;
+        Node left=mirror(node.left);
+        Node right=mirror(node.right);
+        // swap the left and right pointers
+        node.left=right;
+        node.right=left;
+        return node;
+
+    }
+   void inOrder()
+   {
+    inOrder(root);
+   }
+   void inOrder(Node node)
+   {
+    if(node==null)
+    {
+        return;
+    }
+    inOrder(node.left);
+    System.out.print(node.data+" ");
+    inOrder(node.right);
+   }
+
+public static void main(String[] args) {
+    BinaryTree tree= new BinaryTree();
+    tree.root=new Node(1);
+    tree.root.left=new Node(2);
+    tree.root.right=new Node(3);
+    tree.root.left.left=new Node(4);
+    tree.root.left.right=new Node(5);
+    System.out.println("inOrder traversal of input tree is");
+    tree.inorder();
+    System.out.println("");
+    tree.mirror();
+    System.out.println("inorder traversal of binary tree is");
+    tree.inorder();
+}
+}
+
