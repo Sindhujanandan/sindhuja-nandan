@@ -1,62 +1,82 @@
+import java.util.LinkedList;
 public class MergeSort {
+    public static class Node
+    {
+        int data;
+        Node next;
+        public Node(int data)
+        {
+            this.data=data;
+            this.next=null;
+        }
+    }
+    public static Node head;
+    private  Node getMid(Node head)
+    {
+       Node slow=head;
+       Node fast=head;
+       while(fast!=null&&fast.next!=null)
+       {
+        slow=slow.next;
+        fast=fast.next.next;
+       }
+       return slow;
+    }
+    private  Node merge(Node head1,Node head2)
+    {
+        Node mergedLL=new Node(-1);
+        Node temp=mergedLL;
+        while(head1!=null&&head2!=null)
+        {
+            if(head1.data<=head2.data)
+            {
+                temp.next=head1;
+                head1=head1.next;
+                temp=temp.next;
+            }
+            else{
+                temp.next=head2;
+                head2=head2.next;
+                temp=temp.next;
+            }
+        }
+            while(head1!=null)
+            {
+                temp.next=head1;
+                head1=head1.next;
+                temp=temp.next;
+            }
+            while(head2!=null)
+            {
+                temp.next=head2;
+                head2=head2.next;
+                temp=temp.next;
+            }
+            return mergedLL.next;
+        }
+    public  static Node mergeSort(Node head)
+    {
+        if(head==null||head.next==null)
+        {
+            return head;
+        }
+        Node mid=getMid(head);
+        // left &right merge sort
+        Node righthead=mid.next;
+        mid.next=null;
+        Node newleft=mergeSort(head);
+        Node newright=mergeSort(righthead);
+        return merge(newleft,newright);
+    }
     public static void main(String[] args) {
-        int []arr={7,3,5,6,7,8};
-        int si=0;
-        int ei=arr.length-1;
-        mergeSort(arr,si,ei);
-        System.out.println("sorted array");
-        printArr(arr);
+        LinkedList<Integer> ll=new LinkedList<>();
+        ll.addLast(1);
+        ll.addLast(2);
+        ll.addFirst(3);
+        ll.addLast(4);
+        System.out.println(ll);
+        mergeSort(ll);
+        System.out.println();
+      
     }
-    public static void printArr(int[]arr)
-    {
-        for(int i=0;i<arr.length;i++)
-        {
-            
-            System.out.print(arr[i]+" ");
-        }
-    }
- public static void mergeSort(int arr[],int si,int ei)
- {
-    if(si>=ei)
-    {
-        return;
-    }
-   int mid =si+(ei-si)/2;
-   mergeSort(arr, si, mid);
-   mergeSort(arr, mid+1, ei);
-   merge(arr,si,mid,ei);
- }
- public static void merge(int arr[],int si,int mid,int ei)
- {
-    int temp[]=new int[ei-si+1];
-    int i=si;
-    int j= mid+1;
-    int k=0;
-    while(i<=mid&&j<=ei)
-    {
-        if(arr[i]<arr[j])
-        {
-            temp[k]=arr[i];
-            i++;
-        }
-        else{
-            temp[k]=arr[j];
-            j++;
-        }
-        k++;
-    }
-    while(i<=mid)
-    {
-        temp[k++]=arr[i++];
-    }
-    while(j<=ei)
-    {
-        temp[k++]=arr[j++];
-    }
-for(k=0,i=si;k<temp.length;k++,i++)
-{
-arr[i]=temp[k];
 }
- }
-    }
-
