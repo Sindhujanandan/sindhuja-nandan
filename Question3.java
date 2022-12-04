@@ -1,31 +1,36 @@
 import java.util.*;
 public class Question3 {
-    public static void printNonRepeating(String str)
-    {
-int freq[]=new int[26];
-Queue<Character> q=new LinkedList<>();
-for(int i=0;i<str.length();i++)
-{
-char ch=str.charAt(i);
-q.add(ch);
-freq[ch-'a']++;
-while(!q.isEmpty()&&freq[q.peek()-'a']>1)
-{
-    q.remove();
-}
-if(q.isEmpty())
-{
-    System.out.print(-1+" ");
-}
-else{
-    System.out.print(q.peek()+" ");
-}
-}
-System.out.println();
+    static class Point implements Comparable<Point>{
+        int x;
+        int y;
+        int distsqr;
+        int idx;
+        public Point (int x,int y,int distsqr,int idx)
+        {
+            this.x=x;
+            this.y=y;
+            this.distsqr=distsqr;
+            this.idx=idx;
+        }
+        @Override
+        public int compareTo(Point p2)
+        {
+            return this.distsqr-p2.distsqr;
+        }
     }
     public static void main(String[] args) {
-      String str="aabccxb";  
-      printNonRepeating(str);
-    }
+        int pts[][]={{3,3},{5,-1},{-2,4}};
+        int k=2;
+        PriorityQueue<Point> pq=new PriorityQueue<>();
+        for(int i=0;i<pts.length;i++)
+        {
+            int distsqr=pts[i][0]*pts[i][0]+pts[i][1]*pts[i][1];
+            pq.add(new Point(pts[i][0], pts[i][1], distsqr,i));
+        }
+        // nearest K cars
+        for(int i=0;i<k;i++)
+    {
+        System.out.println("C"+pq.remove().idx);
+    }   
+     }
 }
-

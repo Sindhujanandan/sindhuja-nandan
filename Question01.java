@@ -1,71 +1,84 @@
-//import java.util.*;
-public class Question01 {//O(l)
-        static class Node
+import java.util.*;
+public class Question01 {
+static class Heap{
+    ArrayList<Integer> arr= new ArrayList<>();
+    public void add(int data)
     {
-        Node children[]=new Node[26];
-        boolean eow/*endofWord*/=false;
+        // add at last index
+        arr.add(data);
+        int x=arr.size()-1;// x is child index
+        int par=(x-1)/2;// parent inx
+        //while(arr.get(x)<arr.get(par)) for minindex
+        while(arr.get(x)>arr.get(par)) // for maxidx
+        {
+            // swap
+            int temp=arr.get(x);
+            arr.set(x, arr.get(par));
+            arr.set(par,temp );
+            x=par;
+            par=(x-1)/2;
+        }
+    }
+    public int peek()
+{
+    return arr.get(0);
+}
+private void heapify(int i)
+{
+    int left=2*i+1;
+    int right=2*i+2;
+  //  int minIdx=i;
+  int maxIdx=i;
 
-      public Node()
-        {
-            for(int i=0;i<26;i++)
-            {
-                children[i]=null;
-            }
-        }
-    }
-    public static Node root=new Node();
-    public static void insert(String word)
+   // if(left<arr.size()&& arr.get(minIdx)>arr.get(left)) minidx
+    if(left<arr.size()&& arr.get(maxIdx)<arr.get(left)) // for maxidx
     {
-        Node curr=root;
-        for(int level=0;level<word.length();level++)
-        {
-            int idx=word.charAt(level)-'a';
-            if(curr.children[idx]==null)
-            {
-                curr.children[idx]=new Node();
-            }
-            curr=curr.children[idx];
-        }
-        curr.eow=true;
+        maxIdx=left;
     }
-    public static boolean search(String key)
+   // if(right<arr.size()&& arr.get(minIdx)>arr.get(right)) for minidx
+    if(right<arr.size()&& arr.get(maxIdx)<arr.get(right)) // for maxidx
+    
     {
-        Node curr=root;
-        for(int level=0;level<key.length();level++)
-        {
-            int idx=key.charAt(level)-'a';
-            if(curr.children[idx]==null)
-            {
-             return false;
-            }
-            curr=curr.children[idx];
-        }
-       return curr.eow=true;
+        maxIdx=right;
     }
-    public static boolean wordBreak(String key)
+    if(maxIdx!=i)
     {
-        if(key.length()==0)
-        {
-            return true;
-        }
-        for(int i=1;i<=key.length();i++)
-        {
-            if(search(key.substring(0,i)) && wordBreak(key.substring(i)))
-            {
-            return true;
-            }
-        }
-        return false;
+        // swap
+        int temp=arr.get(i);
+        arr.set(i, arr.get(maxIdx));
+        arr.set(maxIdx, temp);
+
+        heapify(maxIdx);
     }
-  public static void main(String[] args) {
-    String words[]={"the","are","there","their","any","three","boys"};
-    for(int i=0;i<words.length;i++)
-    {
-        insert(words[i]);
-    }
-   // System.out.println(search("thee"));
-    //System.out.println(search("thor"));
-    String key="therearethreeboys";
-    System.out.println(wordBreak(key));
-  }  
+}
+public int remove()
+{
+    int data=arr.get(0);
+    // step1-swap first &last
+    int temp=arr.get(0);
+    arr.set(0, arr.get(arr.size()-1));
+    arr.set(arr.size()-1,temp);
+    // step2-delete last
+    arr.remove(arr.size()-1);
+    // step3-heapify
+    heapify(0);
+    return data;
+}
+public boolean isEmpty()
+{
+    return arr.size()==0;
+}
+}
+   public static void main(String[] args) {
+     Heap h=new Heap();
+     h.add(3);
+     h.add(4);
+     h.add(1);
+     h.add(5);
+     while(!h.isEmpty())
+     {
+        System.out.println(h.peek());// heap sort O(nlogn``)
+        h.remove();
+     }
+   } 
 }

@@ -1,29 +1,45 @@
 import java.util.*;
 public class Question5 {
-   public static void reverse(Queue<Integer> q)
-   {
-    Stack<Integer> s=new Stack<>();
-    while(!q.isEmpty())
+    static class Row implements Comparable<Row>
     {
-        s.push(q.remove());
+        int soldiers;
+        int idx;
+
+        public Row(int soldiers,int idx)
+        {
+            this.soldiers=soldiers;
+            this.idx=idx;
+        }
+        @Override
+        public int compareTo(Row r2)
+        {
+            if(this.soldiers==r2.soldiers)
+            {
+                return this.idx-r2.idx;
+            }
+            else{
+                return this.soldiers-r2.soldiers;
+            }
+        }
     }
-    while(!s.isEmpty())
-    {
-        q.add(s.pop());
+    public static void main(String[] args) {
+        int army[][]={{1,0,0,0},
+        {1,1,1,1},
+        {1,0,0,0},{1,0,0,0}};
+        int k=2;
+        PriorityQueue<Row> pq=new PriorityQueue<>();
+        for(int i=0;i<army.length;i++)
+        {
+            int count=0;
+            for(int j=0;j<army[0].length;j++)
+            {
+                count+=army[i][j]==1?1:0;
+            }
+            pq.add(new Row(count, i));
+        }
+        for(int i=0;i<k;i++)
+        {
+            System.out.println("R"+pq.remove().idx);
+        }
     }
-   } 
-   public static void main(String[] args) {
-    Queue<Integer> q=new LinkedList<>();
-    q.add(1);
-    q.add(2);
-    q.add(3);
-    q.add(4);
-    q.add(5);
-reverse(q);
-while(!q.isEmpty())
-{
-    System.out.print(q.remove()+" ");
-}
-System.out.println();
-   }
 }

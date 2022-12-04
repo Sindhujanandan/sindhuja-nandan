@@ -1,35 +1,21 @@
 import java.util.*;
 public class Question4 {
-   public static void interLeave(Queue<Integer> q){
-   Queue<Integer> firsthalf= new LinkedList<>();
-   int size=q.size();
-   for(int i=0;i<size/2;i++)
-   {
-    firsthalf.add(q.remove());
-   }
-   while(!firsthalf.isEmpty())
-   {
-    q.add(firsthalf.remove());
-    q.add(q.remove());
-   }
-   }
-    public static void main(String[] args) {
-        Queue<Integer> q=new LinkedList<>();
-        q.add(1);
-        q.add(2);
-        q.add(3);
-        q.add(4);
-        q.add(5);
-        q.add(6);
-        q.add(7);
-        q.add(8);
-        q.add(9);
-        q.add(10);
-        interLeave(q);
-      while(!q.isEmpty())
-      {
-        System.out.print(q.remove()+" ");
-      }
-      System.out.println();
+  public static void main(String []args)
+  {
+    int ropes[]={2,3,3,4,6};
+    PriorityQueue<Integer> pq=new PriorityQueue<>();
+    for(int i=0;i<ropes.length;i++)
+    {
+        pq.add(ropes[i]);
     }
+    int cost=0;
+    while(pq.size()>1)
+    {
+        int min=pq.remove();
+        int min2=pq.remove();
+        cost+=min+min2;
+        pq.add(min+min2);
+    }
+    System.out.println("cost of connecting="+cost);
+  }  
 }
