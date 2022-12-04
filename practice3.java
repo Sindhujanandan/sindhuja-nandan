@@ -1,7 +1,10 @@
+//add 1 to an integer using bit manipulation
 public class practice3 {
-    public static void main(String []args)
+    public static void main(String args[])
     {
-    String str="apna college".replace("l", "");
-    System.out.println(str);
-}
+        int x=35;
+        //-x=~x+1;
+        //-~x=x+1;
+         System.out.println(-~x);
+    }
 }

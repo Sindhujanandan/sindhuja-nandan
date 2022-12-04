@@ -1,9 +1,17 @@
 public class practice2 {
-    public static void main(String[]args)
+    public static void main(String args[])
     {
-        String str="sindhuja";
-        String str1="shradha";
-        String str2="sindhuja";
-        System.out.println(str.equals(str1) + " "+ str.equals(str2));
+        int x=5,y=4;
+        System.out.println("before swapping");
+        System.out.println("x="+x);
+        System.out.println("y"+y);
+        //int x=5,y=4;
+        x=x^y;
+        y=x^y;
+        x=x^y;
+        System.out.println("after swapping ");
+         System.out.println("x="+x);
+         System.out.println("y="+y);
     }
 }
+
