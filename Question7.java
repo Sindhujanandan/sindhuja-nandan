@@ -1,128 +1,28 @@
+import java.util.*;
 public class Question7 {
-    static class Node{
-        int data,height;
-        Node left,right;
-        Node(int data)
+    static class Queue{
+        Deque<Integer> deque=new LinkedList<>();
+        public void add(int data)
         {
-            this.data=data;
-            height=1;
+            deque.addLast(data);
         }
-    }
-    public static Node root;
-    public static int height(Node root)
-    {
-        if(root==null)
+        public int remove()
         {
-            return 0;
+             return deque.removeFirst();
         }
-        return root.height;
-    }
-    static int max(int a,int b)
-    {
-        return (a>b)?a:b;
-    }
-    public static Node leftRotate(Node x)
-    {
-        Node y=x.right;
-        Node x1=y.left;
-        // perform rotation 
-        y.left=x;
-        x.right=y;
-        // update heights
-        x.height=max(height(x.left), height(x.right))+1;
-        y.height=max(height(y.left), height(y.right))+1;
-        // return new root
-        return y;
-    }
-    public static Node rightRotate(Node y)
-    {
-        Node x=y.left;
-        Node T2=x.right;
-        // perform rotation 
-        x.right=y;
-        y.left=T2;
-        //update heights
-        y.height=max(height(y.left), height(y.right))+1;
-        x.height=max(height(x.left), height(x.right))+1;
-        // return new root
-        return x;
-    }
-    public static int getBalance(Node root)
-    {
-        if(root==null)
+        public int peek()
         {
-            return 0;
+             return deque.getFirst();
         }
-        return height(root.left)-height(root.right);
-    }
-    public static Node insert(Node root,int key)
-    {
-        if(root==null)
-        {
-            return new Node(key);
-        }
-        if(key<root.data)
-        {
-            root.left=insert(root.left, key);
-        }
-        else if(key>root.data)
-        root.right=insert(root.right, key);
-       else{
-        return root;
-        }
-        // update root height
-        root.height=1+Math.max(height(root.left), height(root.right));
-        // get root's balance factor
-        int bf=getBalance(root);
-        // Left Left case
-        if(bf>1&&key<root.left.data)
-        {
-            return rightRotate(root);
-        }
-        // Right Right case
-        if(bf< -1&& key>root.right.data)
-        {
-            return leftRotate(root);
-        }
-        // left right case
-        if(bf>1 && key> root.left.data)
-        {
-            root.left=leftRotate(root.left);
-            return rightRotate(root);
-        }
-        //right left case
-        if(bf<-1&& key<root.right.data)
-        {
-            root.right=rightRotate(root.right);
-            return leftRotate(root);
-        }
-        return root;//returned if AVL balanced
-    }
-    public static void preOrder(Node root)
-    {
-        if(root==null)
-        {
-            return;
-        }
-        System.out.print(root.data+" ");
-        preOrder(root.left);
-        preOrder(root.right);
     }
     public static void main(String[] args) {
-        root= insert(root,10);
-        root= insert(root,20);
-        root= insert(root,30);
-        root= insert(root,40);
-        root= insert(root,50);
-        root= insert(root,25);
-/*
- AVL tree
-      30
-     /  \
-    20  40
-   / \    \  
-  10  25   50
- */
-preOrder(root);
+        Queue q=new Queue();
+        q.add(1);
+        q.add(2);
+        q.add(3);
+        System.out.println("peek="+q.peek());
+        System.out.println(q.remove());
+        System.out.println(q.remove());
+        System.out.println(q.remove());
     }
 }

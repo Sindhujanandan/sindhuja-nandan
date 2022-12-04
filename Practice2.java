@@ -1,59 +1,24 @@
-//import Question1.BinaryTree;
-class Node {
-    int data;
-    Node left,right;
-public Node(int item)
-{
-    data=item;
-    left=right=null;
-}
-}
+import java.util.*;
 public class Practice2 {
-    Node root;
-    void mirror()
-    {
-        root=mirror(root);
+    static int minCost(int arr[], int n){
+        PriorityQueue<Integer> pq= new PriorityQueue<Integer>();
+        for (int i = 0; i < n; i++) {
+            pq.add(arr[i]);
+        }
+        int res = 0;
+        while (pq.size() > 1) {
+            int first = pq.poll();
+            int second = pq.poll();
+            res += first + second;
+            pq.add(first + second);
+        }
+        return res;
+    }public static void main(String args[]){
+        int len[] = { 4, 3, 2, 6 ,2};
+        int size = len.length;
+        System.out.println("Total cost for connecting"+ " ropes is "
+        + minCost(len, size));
     }
-    Node mirror(Node node)
-    { // do the subtrees
-        if(node==null)
-        return node;
-        Node left=mirror(node.left);
-        Node right=mirror(node.right);
-        // swap the left and right pointers
-        node.left=right;
-        node.right=left;
-        return node;
-
-    }
-   void inOrder()
-   {
-    inOrder(root);
-   }
-   void inOrder(Node node)
-   {
-    if(node==null)
-    {
-        return;
-    }
-    inOrder(node.left);
-    System.out.print(node.data+" ");
-    inOrder(node.right);
-   }
-
-public static void main(String[] args) {
-    BinaryTree tree= new BinaryTree();
-    tree.root=new Node(1);
-    tree.root.left=new Node(2);
-    tree.root.right=new Node(3);
-    tree.root.left.left=new Node(4);
-    tree.root.left.right=new Node(5);
-    System.out.println("inOrder traversal of input tree is");
-    tree.inorder();
-    System.out.println("");
-    tree.mirror();
-    System.out.println("inorder traversal of binary tree is");
-    tree.inorder();
 }
-}
+ 
 

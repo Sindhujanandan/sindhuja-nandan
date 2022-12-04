@@ -1,60 +1,86 @@
+import java.util.*;
 public class Question2 {
-    static class Node{
-        int data;
-        Node left;
-        Node right;
-         public Node(int data)
-         {
-            this.data=data;
-            this.left=this.right=null;
-         }
-    }
-    public static Node createMirror(Node root)
-    {
-        if(root==null)
+    static class Stack{
+     static Queue<Integer> q1= new LinkedList<>();
+     static Queue<Integer> q2= new LinkedList<>();
+     public static boolean isEmpty()
+     {
+        return q1.isEmpty() && q2.isEmpty();
+     }
+     public static void push(int data)
+     {
+        if(!q1.isEmpty())
         {
-            return null;
+            q1.add(data);
         }
-       Node leftMirror= createMirror(root.left);
-       Node rightMirror= createMirror(root.right);
-
-        root.left=rightMirror;
-        root.right=leftMirror;
-        return root;
-    }
-    public static void preOrder(Node root)
-    {
-        if(root==null)
+        else{
+            q2.add(data);
+        }
+     }
+     public static int pop(){
+        if(isEmpty())
         {
-            return ;
+            System.out.println("empty stack");
+            return -1;
         }
-       System.out.print(root.data+" ");
-       preOrder(root.left);
-       preOrder(root.right);
+        int top=-1;
+        if(!q1.isEmpty())
+        {
+            while(!q1.isEmpty())
+            {
+                top=q1.remove();
+                if(q1.isEmpty()){
+                    break;
+                }
+                q2.add(top);
+            }
+        }
+        else{
+            while(!q2.isEmpty())
+            {
+                top=q2.remove();
+                if(q2.isEmpty()){
+                    break;
+                }
+                q1.add(top);
+            }
+        }
+        return top;
+     }
+     public static int peek(){
+        if(isEmpty())
+        {
+            System.out.println("empty stack");
+            return -1;
+        }
+        int top=-1;
+        if(!q1.isEmpty())
+        {
+            while(!q1.isEmpty())
+            {
+                top=q1.remove();
+                q2.add(top);
+            }
+        }
+        else{
+            while(!q2.isEmpty())
+            {
+                top=q2.remove();
+                q1.add(top);
+            }
+        }
+        return top;
+     }
     }
     public static void main(String[] args) {
-        /*
-        8
-       / \
-      5   10
-     / \   \
-    3   6   11
-         */
-        Node root=new Node(8);
-        root.left=new Node(5);
-        root.right=new Node(10);
-        root.left.left=new Node(3);
-        root.left.right=new Node(6);
-        root.right.right=new Node(11);
-        /*
-        8
-       / \
-      10  5
-     /   / \
-    11  6   3
- mirro BST
-         */
-        root=createMirror(root);
-        preOrder(root);
+        Stack s=new Stack();
+        s.push(1);
+        s.push(2);
+        s.push(3);
+        while(!s.isEmpty())
+        {
+            System.out.println(s.peek());
+            s.pop();
+        }
     }
 }
