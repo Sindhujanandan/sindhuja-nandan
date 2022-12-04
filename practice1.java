@@ -1,29 +1,25 @@
-//import java.util.*;
+package secondArray;
 public class practice1 {
-    static int BalancedPartition(String str, int n)
+    public static void main(String[]args)
     {
-        if (n == 0)
-        return 0;
-        int r = 0, l = 0;
-        int ans = 0;
-        for(int i = 0; i < n; i++)
+        int[][] arr={{4,7,8},{8,8,7}} ;
+        int count=counting(arr);
+        System.out.println(count);
+    }
+    public static int counting(int[][]arr)
+    {
+    int count=0;
+        for(int i=0;i<arr.length;i++)
+    {
+        for(int j=0;j<arr[0].length;j++)
         {
-            if (str.charAt(i) == 'R'){
-                r++;
-            }
-            else if (str.charAt(i) == 'L')
+            if(arr[i][j]==7)
             {
-                l++;
+               count++;
             }
-            if (r == l){
-                ans++;
-            }
-        }
-        return ans;
     }
-    public static void main(String[] args)
-    {
-        String str = "LLRRRLLRRL";
-        int n = str.length();
-        System.out.print(BalancedPartition(str, n) + "\n");}
+}
+    return count;
     }
+}
+
