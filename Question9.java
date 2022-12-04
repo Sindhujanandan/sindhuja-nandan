@@ -1,12 +1,9 @@
 import java.util.*;
 public class Question9 {
+public void helper(int [][] image,int sr,int sc,int color,boolean vis[][],int orgCol)
+{
+if(sr<0|| sc<0||sr>=image.length||sc>=image[0].length||vis[sr][sc]||image[sr][sc]||image[sr][sc]!=orgCol)
+}
     public static void main(String[] args) {
-        int num[]={4,3,2,5,6,7,3,4,2,1};
-        HashSet<Integer> set=new HashSet<>();
-        for(int i=0;i<num.length;i++)
-        {
-            set.add(num[i]);
-        }
-        System.out.println("ans="+set.size());
-    }
+}
 }

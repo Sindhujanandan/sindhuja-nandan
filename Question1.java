@@ -1,55 +1,60 @@
 import java.util.*;
 public class Question1 {
-    static class Queue{
-    static Stack<Integer> s1=new Stack<>();
-    static Stack<Integer> s2=new Stack<>();
-    public static boolean isEmpty()
-    {
-        return s1.isEmpty();
-    }
-    public static void add(int data)
-    {
-        while(!s1.isEmpty())
-        {
-            s2.push(s1.pop());
-        }
-        s1.push(data);
-        while(!s2.isEmpty())
-        {
-            s1.push(s2.pop());       
-         }
-    }
-    public static int remove()
-    {
-        if(isEmpty())
-        {
-            System.out.println("queue empty");
-            return -1;
-        }
-        return s1.pop();
-    }
-        public static int peek()
-        {
-            if(isEmpty())
-            {
-                System.out.println("queue empty");
-                return -1;
-            }
-            return s1.peek();
-        }
-    }
-public static void main(String[] args) {
-    Queue q= new Queue();
-    q.add(1);
-    q.add(12);
-    q.add(13);
+    static class Edge{
+        int src;
+        int dest;
+        int wt;
 
-    while(!q.isEmpty())
-    {
-        System.out.println(q.peek());
-        q.remove();
+        public Edge(int s,int d,int w)
+        {
+            this.src=src;
+            this.dest=dest;
+            this.wt=wt;
+        }
     }
     
-  }  
+    public static void main(String[] args) {
+       /*  (5)
+       0--------1
+               / \
+           (1)/   \(3)
+             /     \
+            2-------3
+            |    (1)
+            |(2)
+            |
+            4
+       */ 
+      int v=5;
+      ArrayList<Edge>[] graph=new ArrayList[v];
+      for(int i=0;i<v;i++)
+      {
+        graph[i]=new ArrayList<>();
+      }
+      // 0 vertex
+      graph[0].add(new Edge(0, 1, 5));
 
+      // 1 vertex
+      graph[1].add(new Edge(1, 0, 5));
+      graph[1].add(new Edge(1, 2, 1));
+      graph[1].add(new Edge(1, 3, 3));
+
+      // 2 vertex
+      graph[2].add(new Edge(2, 1, 1));
+      graph[2].add(new Edge(2, 3, 1));
+      graph[2].add(new Edge(2, 4, 4));
+      
+      // 3 vertex
+      graph[3].add(new Edge(3, 1, 3));
+      graph[3].add(new Edge(3, 2, 1));
+      
+      // 4 vertex
+      graph[4].add(new Edge(4, 2, 2));
+      // 2's neighbors
+      for(int i=0;i<graph[2].size();i++)
+      {
+        Edge e=graph[2].get(i);
+        System.out.println(e.dest);
+      }
+    }
 }

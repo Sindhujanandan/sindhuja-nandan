@@ -1,21 +1,47 @@
 import java.util.*;
 public class Question7 {
-    public static void main(String[] args) {
-        HashSet<Integer> Set=new HashSet<>();
-        Set.add(1);
-        Set.add(2);
-        Set.add(4);
-        Set.add(2);
-        System.out.println(Set);
-        Set.remove(2);
-        if(Set.contains(2))
+    static int n=7;
+    static int par[]=new int[n];
+    static int rank[]=new int[n];
+    public static void init()
+    {
+        for(int i=0;i<n;i++)
         {
-            System.out.println("Set contains 2");
-        }else{
-            System.out.println("Not Contains");
+            par[i]=i;
         }
-        Set.clear();
-        System.out.println(Set.size());
-        System.out.println(Set.isEmpty());
     }
+    public static int find(int x)
+    {
+        if(x==par[x])
+        {
+            return x;
+        }
+        return find(par[x]);
+    }
+public static void union(int a,int b)
+{
+    int parA=find(a);
+    int parB=find(b);
+    if(rank[parA]==rank[parB])
+    {
+        par[parB]=parA;
+        rank[parA]++;
+    }else if(rank[parA]<rank[parB])
+    {
+        par[parA]=parB;
+    }else{
+        par[parB]=parA;
+    }
+}
+public static void main(String[] args) {
+    init();
+    union(1, 3);
+    System.out.println(find(3));
+    union(2, 4);
+    union(3, 6);
+    union(1, 4);
+    System.out.println(find(3));
+    System.out.println(find(4));
+    union(1, 5);
+}
 }
